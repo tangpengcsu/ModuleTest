@@ -28,13 +28,13 @@ import java.util.stream.Stream;
  * 2019/3/20     1.0.1.0       tang.peng     创建
  * ----------------------------------------------------------------
  */
-public class HadoopTextFile implements Writer<List<Map<Integer, Object>>>, Reader<List<Map<String, String>>,
-        Map<Integer, String>> {
+public class HadoopTextFile implements Writer<List<Map<String, Object>>>, Reader<List<Map<String, String>>> {
 
     private FileSystem fileSystem;
     private String filePath;
     private Map<Integer, String> mapper;//key 为写入字段的顺序，value为字段名
-    public HadoopTextFile() {
+
+    private HadoopTextFile() {
     }
 
     public HadoopTextFile(FileSystem fileSystem, String filePath, Map<Integer, String> mapper) {
@@ -43,17 +43,13 @@ public class HadoopTextFile implements Writer<List<Map<Integer, Object>>>, Reade
         this.mapper = mapper;
     }
 
-    public HadoopTextFile(FileSystem fileSystem, String filePath) {
-        this.fileSystem = fileSystem;
-        this.filePath = filePath;
-    }
 
     /**
-     * @param data Map 中，key 为写入字段的顺序，value为字段值
+     * @param data Map 中，key 为写入字段名，value为字段值
      * @throws IOException
      */
     @Override
-    public void write(List<Map<Integer, Object>> data) throws IOException {
+    public void write(List<Map<String, Object>> data) throws IOException {
 
         FSDataOutputStream fout = null;
         BufferedWriter out = null;
@@ -65,11 +61,13 @@ public class HadoopTextFile implements Writer<List<Map<Integer, Object>>>, Reade
             fout = fileSystem.create(path);
             out = new BufferedWriter(new OutputStreamWriter(fout, "UTF-8"));
 
-            for (Map<Integer, Object> v : data) {
+            for (Map<String, Object> v : data) {
                 List<String> result = new ArrayList<>();
-                v.entrySet().stream()
+                mapper.entrySet().stream()
                         .sorted(Map.Entry.comparingByKey()
-                        ).forEachOrdered(e -> result.add(e.getValue().toString()));
+                        ).forEachOrdered(e->{
+                        result.add(v.get(e.getValue()).toString());
+                });
                 String value = Joiner.on(HadoopCfg.DEFAULT_SEPARATOR).join(result);
                 out.write(value);
                 out.newLine();
@@ -109,7 +107,7 @@ public class HadoopTextFile implements Writer<List<Map<Integer, Object>>>, Reade
                 int i = 0;
                 while (it.hasNext()) {
                     String v = it.next();
-                    map.put(mapper.get(i + 1), v);//字段序号从1 开始
+                    map.put(mapper.get(i + 1), v);//字段序号是从1 开始
                     i++;
                 }
                 if (map != null && !map.isEmpty()) {

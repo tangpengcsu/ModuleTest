@@ -16,6 +16,6 @@ import java.io.IOException;
  * 2019/3/20     1.0.1.0       tang.peng     创建
  * ----------------------------------------------------------------
  */
-public interface Reader<V,T> {
+public interface Reader<V> {
     V read() throws IOException;
 }
