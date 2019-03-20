@@ -1,0 +1,28 @@
+{
+  "teacher.name":"t1",
+  "teacher.age":1,
+  "course.info":{
+    "course.name":"math",
+    "course.code":1
+  },
+  "students":[
+    {
+      "student.name":"zansan",
+      "student.age":23,
+      "enum":1
+    },{
+      "student.name":"lishi1",
+      "student.age":25,
+      "enum":"V3"
+    },{
+      "student.name":"lishi3",
+      "student.age":25,
+      "color":"RED"
+
+    },{
+      "student.name":"lishi2",
+      "student.age":25,
+      "enum":"V3"
+    }
+  ]
+}

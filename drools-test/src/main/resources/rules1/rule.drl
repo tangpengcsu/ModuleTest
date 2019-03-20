@@ -1,0 +1,59 @@
+package com.kingdom.kdbi
+
+//导入自定义的实体类
+import info.xiaohei.www.Message
+import java.util.*
+import org.apache.spark.sql.Row
+function int getWeightSum(Map map) {
+  System.out.println("map:"+map);
+    List<Row> factorList = (List<Row>) map.get("MODEL_FACTOR_LIST");
+    List<Row> factorItemList = (List<Row>) map.get("MODEL_FACTOR_ITEM_LIST");
+
+    if (factorList == null || factorItemList == null) {
+        return 0;
+    }
+
+    int total = 0;
+    int value = 0;
+    Iterator<Row> factorIt = factorList.iterator();
+    try{
+     while (factorIt.hasNext()) {
+          System.out.println("xx1");
+            Row factorMap = factorIt.next();
+               System.out.println("xx122");
+               int index = factorMap.fieldIndex("FACTOR_ID");
+
+            String factorId = factorMap.getString(index);
+               System.out.println("xx111");
+            int weight = factorMap.getDecimal(factorMap.fieldIndex("FACTOR_WEIGHT")).intValue();
+    System.out.println("xx2");
+            String tagVal = (String) map.getOrDefault(factorId, "");
+            System.out.println("xx3");
+            Iterator<Row> itemIt = factorItemList.iterator();
+            while (itemIt.hasNext()) {
+            System.out.println("xx21");
+                Row itemMap = itemIt.next();
+                if (factorId.equals(itemMap.getString(itemMap.fieldIndex("FACTOR_ID"))) && tagVal.equals(itemMap.getString(itemMap.fieldIndex("FACTOR_ITEM")))) {
+                    Integer score = itemMap.getInt(itemMap.fieldIndex("FACTOR_ITEM_SCORE"));
+                    value += score * weight;
+                    break;
+                }
+            }
+            total += weight;
+        }
+    }catch(Exception e){
+    e.printStackTrace();
+        System.out.println("errror");
+    return 0;
+    }
+
+     System.out.println(total +":"+value);
+    return total / value;
+}
+rule "0-null"
+   when
+       $info : Facts()
+   then
+     System.out.println(getWeightSum($info.getItem()));
+       $info.setTagValue("0");
+end

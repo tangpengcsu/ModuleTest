@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:oracle:thin:@192.168.50.85:1521:orcl</value>
+        <description>JDBC connect string for a JDBC metastore</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>oracle.jdbc.OracleDriver</value>
+        <description>Driver class name for a JDBC metastore</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>hive</value>
+        <description>Username to use against metastore database</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>hive</value>
+        <description>password to use against metastore database</description>
+    </property>
+
+    <property>
+        <name>hive.cli.print.header</name>
+        <value>true</value>
+        <description>Whether to print the names of the columns in query output.</description>
+    </property>
+
+    <property>
+        <name>hive.cli.print.current.db</name>
+        <value>true</value>
+        <description>Whether to include the current database in the Hive prompt.</description>
+    </property>
+
+    <property>
+        <name>hive.server2.thrift.port</name>
+        <value>19999</value>
+        <description>Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is 'binary'.</description>
+    </property>
+
+
+   <property>  
+        <name>datanucleus.readOnlyDatastore</name>  
+        <value>false</value>  
+</property>  
+<property>   
+    <name>datanucleus.fixedDatastore</name>  
+    <value>false</value>   
+</property>  
+<property>   
+    <name>datanucleus.autoCreateSchema</name>   
+    <value>true</value>   
+</property>  
+<property>  
+    <name>datanucleus.autoCreateTables</name>  
+    <value>true</value>  
+</property>  
+<property>  
+    <name>datanucleus.autoCreateColumns</name>  
+    <value>true</value>  
+</property> 
+
+
+    <property>
+        <name>hive.exec.compress.intermediate</name>
+        <value>true</value>
+        <description>This controls whether intermediate files produced by Hive between
+            multiple map-reduce jobs are compressed. The compression codec and other options
+            are determined from hadoop config variables mapred.output.compress*
+        </description>
+    </property>
+    <property>
+
+        <name>mapred.map.output.compression.codec</name>
+
+        <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+
+        <description> This controls whether intermediate files produced by Hive
+
+            between multiple map-reduce jobs are compressed. The compression codec
+
+            and other options are determined from hadoop config variables
+
+            mapred.output.compress* </description>
+
+    </property>
+</configuration>

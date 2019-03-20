@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+/**
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<configuration>
+ <property>
+                <name>hbase.rootdir</name>
+                <value>hdfs://SparkMaster:9000/hbase</value>
+        <description>
+        </description>  
+        </property>
+        <property>
+                <name>hbase.cluster.distributed</name>
+                <value>true</value>
+        <description>
+        </description> 
+        </property>
+        <property>
+                <name>hbase.zookeeper.quorum</name>
+                <value>SparkWorker1,SparkWorker2,SparkMaster</value>
+        <description>
+        </description> 
+        </property>
+        <property>
+          <name>zookeeper.znode.parent</name>
+          <value>/hbase</value>          
+          <description>
+          </description> 
+        </property>
+        <property>  
+                <name>hbase.zookeeper.property.clientPort</name>  
+                <value>2181</value>  
+                <description>
+            </description> 
+        </property>
+        <property>
+           <name>data.tx.snapshot.dir</name>
+           <value>/tmp/tephra/snapshots</value>
+        </property>
+        <property>
+           <name>data.tx.timeout</name>
+           <value>60</value>
+        </property>
+	<property>
+           <name>hbase.regionserver.handler.count</name>
+           <value>200</value>
+        </property>
+        <property>
+           <name>hbase.client.write.buffer</name>
+           <value>6291456</value>
+        </property>
+        <property>
+           <name>hbase.replication</name>
+           <value>true</value>
+        </property>
+        <property>
+           <name>hbase.hregion.memstore.flush.size</name>
+           <value>268435456</value>
+        </property>
+       <property>
+           <name>hbase.hstore.compactionThreshold</name>
+           <value>6</value>
+        </property>
+        <property>
+           <name>hbase.hregion.memstore.block.multiplier</name>
+           <value>5</value>
+        </property>
+        <property>
+           <name>hbase.regionserver.hlog.splitlog.writer.threads</name>
+           <value>10</value>
+        </property>
+         <property>
+          <name>hbase.hstore.flusher.count</name>
+          <value>10</value>
+        </property> 
+        <property>
+          <name>hbase.hregion.majorcompaction</name>
+          <value>0</value>
+        </property>
+
+
+     <property>  
+         <name>hbase.regionserver.codecs</name>  
+         <value>snappy</value>  
+    </property>
+    <property>
+      <name>hbase.rpc.timeout</name>
+      <value>300000</value>
+    </property>
+    <property>
+      <name>hbase.client.scanner.timeout.period</name>
+      <value>300000</value>
+    </property>
+    <property>
+      <name>hbase.regionserver.wal.codec</name>
+      <value>org.apache.hadoop.hbase.regionserver.wal.IndexedWALEditCodec</value>
+    </property>
+    <property>
+      <name>phoenix.schema.isNamespaceMappingEnabled</name>
+      <value>true</value>
+    </property>
+
+
+
+
+<property>
+    <name>hbase.bucketcache.ioengine</name>
+    <value>offheap</value>
+</property>
+<property>
+    <name>hbase.bucketcache.size</name>
+    <value>3072</value>
+</property>
+<property>
+    <name>hbase.bucketcache.percentage.in.combinedcache</name>
+    <value>0.90</value>
+</property>
+
+<property>
+  <name>hbase.client.retries.number</name>
+  <value>3</value>
+</property>
+<property>
+  <name>zookeeper.recovery.retry</name>
+  <value>3</value>
+</property>
+ <property>
+                <name>hbase.thrift.support.proxyuser</name>
+                <value>true</value>
+        </property>
+        <property>
+                <name>hbase.regionserver.thrift.http</name>
+                <value>true</value>
+        </property>
+</configuration>

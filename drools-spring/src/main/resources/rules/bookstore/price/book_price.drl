@@ -1,0 +1,51 @@
+package rules.bookstore.price;
+
+import com.bigfish.bookstore.dto.Book;
+
+dialect  "mvel"
+
+
+//默认售价为书的原价
+rule "default book price rule"
+    lock-on-active
+    salience 10
+    
+    when
+        $b : Book()
+    then
+        $b.salesPrice = $b.basePrice;
+end
+
+//计算机类图书打95折
+rule "the clz of computer price rule 95% discount"
+    lock-on-active
+    salience 9
+    
+    when
+        $b : Book( clz == "computer")
+    then
+        $b.salesPrice = $b.basePrice * 0.95;
+end
+
+
+//销售区域是中国的话，在优惠的基础上再减两块钱
+rule "china area sales price rule"
+    salience 8
+    
+    when 
+        $b : Book( salesArea == "china" )
+    then
+        $b.salesPrice = $b.salesPrice - 2;
+end
+
+
+//如果书的出版时间超过2年的话，售价在原价的基础上打8折, 与计算机类图书优惠不能同时享受
+rule "years 2+ rule"
+    salience 7
+    
+    when 
+        $b : Book( years > 2 &&  clz != "computer")
+    then
+        $b.salesPrice = $b.basePrice * 0.8;
+end
+

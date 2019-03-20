@@ -1,0 +1,72 @@
+{
+  "jobType": "0",
+  "jobCode": "DW_KGOB_EVT_000016",
+  "jobInfo": [
+    {
+      "prioritySn": 1,
+      "hql": "SELECT T.SSYS_DICT_CD   ,\n\t   T.SSYS_DICTEN_CD ,\n\t   T.SYS_SRC        ,\n\t   T.MDL_DICT_CD    ,\n\t   T.N_MDL_DICTEN_CD   \n  FROM DW_CORE.PUB_CODE_DICT T\n",
+      "phase": "1",
+      "saveName": "TEMP_DICT_CODE",
+      "saveType": "3",
+      "partitionNum": "",
+      "sinkMode": "1",
+      "inputParams": [
+        {
+          "key": "",
+          "value": ""
+        }
+      ],
+      "saveParams": [
+        {
+          "key": "CACHE_T_DATE_FLAG",
+          "value": "0"
+        }
+      ],
+      "trdDate": "2018-06-04"
+    },
+    {
+      "prioritySn": 2,
+      "hql": "select * from  ODS_KGOB.H_MATCHING_FEE",
+      "phase": "1",
+      "saveName": "H_MATCHING_FEE_TMP",
+      "saveType": "3",
+      "partitionNum": "",
+      "sinkMode": "1",
+      "inputParams": [
+        {
+          "key": "",
+          "value": ""
+        }
+      ],
+      "saveParams": [
+        {
+          "key": "CACHE_T_DATE_FLAG",
+          "value": "0"
+        }
+      ],
+      "trdDate": "2018-06-04"
+    },
+    {
+      "prioritySn": 3,
+      "hql": "SELECT T1.SERIAL_NO AS JOUR_ID,\n '' AS SETT_DATE,\n T2.N_MDL_DICTEN_CD AS MKT_CD,\n T1.SETT_DATE AS CLR_DATE,\n T1.USER_CODE AS CUST_ID,\n T1.BRANCH AS INR_ORG_ID,\n T1.ACCOUNT AS CPTL_ACC_ID,\n T5.N_MDL_DICTEN_CD AS CRRC_CD,\n T2.SECU_ACC AS SCR_ACC_ID,\n T2.SECU_CODE AS SCR_CD,\n '' AS PD_CD,\n T6.N_MDL_DICTEN_CD AS BUSI_CLAS_CD,\n T1.CPTL_AMT AS CPTL_OCCU_AMT,\n T1.BALANCE AS THIM_CPTL_BAL,\n '' AS ENTR_ID,\n T2.MATCHED_SN AS MTCH_ID,\n CASE\n WHEN T3.FEE_ID = 102 THEN\n T3.FEE_AMT\n END AS TFEE,\n '' AS CLR_FEE,\n '' AS TRAF,\n '' AS HAND_FEE,\n '' AS SFEE_SFEE,\n '' AS OTH_FEE,\n CASE\n WHEN T3.FEE_ID = 100 THEN\n T3.FEE_AMT\n END AS CMS,\n '' AS NET_CMS,\n '' AS BEF_FEE,\n CASE\n WHEN T3.FEE_ID = 101 THEN\n T3.FEE_AMT END AS PRI_STMP, CASE WHEN T3.FEE_ID = 103 THEN T3.FEE_AMT\n END AS PRI_TFEE,\n CASE\n WHEN T3.FEE_ID = 107 THEN\n T3.FEE_AMT\n END AS PRI_CLR_FEE,\n CASE\n WHEN T3.FEE_ID = 106 THEN\n T3.FEE_AMT\n END AS PRI_TRAF,\n CASE\n WHEN T3.FEE_ID = 104 THEN\n T3.FEE_AMT\n END AS PRI_HAND_FEE,\n CASE\n WHEN T3.FEE_ID = 105 THEN\n T3.FEE_AMT\n END AS PRI_SFEE,\n '' AS PRI_OTH_FEE,\n CASE\n WHEN T3.FEE_ID = 111 THEN\n T3.FEE_AMT\n END AS PRI_RPTL,\n '' AS STMP\n FROM ODS_KGOB.CPTL_LOG T1\n LEFT JOIN (SELECT P1.SECU_ACC,\n P1.SECU_CODE,\n P1.MATCHED_SN,\n P1.TRD_DATE,\n P1.SERIAL_NO,\n P1.CUST_CODE,\n P2.N_MDL_DICTEN_CD\n FROM ODS_KGOB.H_MATCHING P1\n LEFT JOIN TEMP_DICT_CODE P2\n ON CONCAT(P1.MARKET, P1.BOARD) = P2.SSYS_DICTEN_CD\n AND P2.SYS_SRC = 'KGOB'AND P2.MDL_DICT_CD = 'DIMLS111'\n WHERE P1.TRD_DATE = $PTN_DATE) T2\n ON T1.SERIAL_NO = T2.SERIAL_NO\n AND T1.USER_CODE = T2.CUST_CODE\n LEFT JOIN H_MATCHING_FEE_TMP T3\n ON (T1.SERIAL_NO = T3.SERIAL_NO AND T1.USER_CODE = T3.CUST_CODE AND\n T1.SETT_DATE = T3.TRD_DATE)\n LEFT JOIN TEMP_DICT_CODE T5\n ON T1.CURRENCY = T5.SSYS_DICTEN_CD\n AND T5.SYS_SRC = 'KGOB'\n AND T5.MDL_DICT_CD = 'DIMLS009'\n LEFT JOIN TEMP_DICT_CODE T6\n ON T1.BIZ_CODE = T6.SSYS_DICTEN_CD\n AND T6.SYS_SRC = 'KGOB'\n AND T6.MDL_DICT_CD = 'DIMLS228'\n WHERE T1.SETT_DATE = $PTN_DATE\n",
+      "phase": "3",
+      "saveName": "DW_CORE.EVT_SCR_CPTL_JOUR",
+      "saveType": "0",
+      "partitionNum": "300",
+      "sinkMode": "1",
+      "inputParams": [
+        {
+          "key": "PTN_DATE",
+          "value": "20180604"
+        }
+      ],
+      "saveParams": [
+        {
+          "key": "",
+          "value": ""
+        }
+      ],
+      "trdDate": "2018-06-04"
+    }
+  ]
+}

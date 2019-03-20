@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.szkingdom</groupId>
+    <artifactId>ModuleTest</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+<!--        <module>hbase</module>
+        <module>hive</module>
+        <module>sqoop</module>-->
+     <!--   <module>hive-java</module>-->
+<!--        <module>sparkStreaming-Kafka</module>
+        <module>sqoop1.99.6</module>
+        <module>OnlyHive</module>
+        <module>phoenixWithSpark</module>
+        <module>excel</module>
+
+        <module>ignite</module>
+        <module>sql-analysis</module>
+        <module>drools-test</module>
+        <module>drools-spring</module>
+        <module>sqlparser</module>-->
+<!--        <module>antlr-test</module>
+        <module>kafka</module>
+        <module>drools-test</module>
+        <module>zk</module>
+        <module>json</module>-->
+        <module>ignite1</module>
+        <module>Ser</module>
+        <!--        <module>kettle</module>-->
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <scala.binary.version>2.11</scala.binary.version>
+        <scala.version>2.11.8</scala.version>
+        <spark.version>2.0.2</spark.version>
+        <hbase.version>1.2.4</hbase.version>
+        <hadoop.version>2.7.3</hadoop.version>
+        <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.16</slf4j.version>
+        <project.build.directory>./pkg</project.build.directory>
+        <jars.target.dir>${project.build.directory}/scala-${scala.binary.version}/jars</jars.target.dir>
+
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+</project>

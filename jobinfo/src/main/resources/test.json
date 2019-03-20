@@ -1,0 +1,42 @@
+﻿{
+  "jobCode": "test",
+  "starting.offsets": "earliest",
+  "sources": [
+    {
+      "name": "ogg",
+      "topics": [
+        {
+          "name": "u_jzjy",
+          "tables": [
+            {
+              "name": "OGG.SHARES",
+              "table.type": "0",
+              "sink.type": "0",
+              "tmp.name": "OGG_SHARES",
+              "output.mode": "0",
+              "columns": [
+                "SECU_ACC",
+                "SECU_INTL",
+                "SEAT",
+                "EXT_INST",
+                "CUST_CODE",
+                "ACCOUNT",
+                "MARKET",
+                "BOARD",
+                "CURRENCY",
+                "SHARE_BLN",
+                "MKT_VAL"
+              ],
+              "info": [
+                {
+                  "hql": "SELECT CAST(CONCAT(T1.SECU_ACC, T1.SECU_INTL, T1.SEAT, T1.EXT_INST) AS VARCHAR(50)) AS ASSET_MODIFR, CAST(T1.CUST_CODE AS DECIMAL(10, 0)) AS CUST_ID, CAST(T1.ACCOUNT AS DECIMAL(10, 0)) AS CUACCT_CODE, CAST(CASE  WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '03' THEN '15' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '00' THEN '02' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '02' THEN '9901' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '10' THEN '01' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '01' THEN '04' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '11' THEN '03' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '20' THEN '10' WHEN CONCAT(TRIM(T1.MARKET), TRIM(T1.BOARD)) = '13' THEN '12' ELSE '99' END AS STRING) AS STKEX, CAST('A01' AS VARCHAR(3)) AS ASSET_VART , CAST(CASE  WHEN T1.CURRENCY = '0' THEN 'CNY' WHEN T1.CURRENCY = '1' THEN 'HKD' WHEN T1.CURRENCY = '2' THEN 'USD' ELSE '~' END AS VARCHAR(3)) AS CURRENCY, CAST(T2.SECU_CODE AS VARCHAR(10)) AS SCR_CD, CAST(T1.SHARE_BLN AS DECIMAL(19, 0)) AS HOLD_QTY, CAST(T1.MKT_VAL AS DECIMAL(19, 4)) AS STKVAL FROM OGG_SHARES T1 LEFT JOIN ODS_KGOB.SECURITIES T2 ON T1.SECU_INTL = T2.SECU_INTL",
+                  "result": "KGRA.CUST_ASSET_DETAIL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

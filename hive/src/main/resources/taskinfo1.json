@@ -1,0 +1,4 @@
+{"SQL":"select custid,moneytype,stktype,market,stkcode,cast(sum(mktval) as   decimal(20,4)) mktval,cast(sum(pre_mktval) as decimal(20,4)) pre_mktval,cast(sum(profitcost) as decimal(20,4)) profitcost,  cast(sum(pre_profitcost) as decimal(20,4)) pre_profitcost, cast(sum(addcost) as decimal(20,4)) addcost, cast(sum(profit_day) as decimal(20,4)) profit  from st_dd_stock_profit  where dcdate = 20180806  group by custid,moneytype,stktype,market,stkcode", "TASKTYPE":"1","TARGETTABLE":"TMP_RESULT","PARTITIONNUM":"-1","SAVEMODE":"1"}
+{"SQL":"select custid,moneytype,stktype,market,stkcode,  mktval,pre_mktval,  profitcost ,pre_profitcost,  addcost,  profit,  case when (pre_mktval+addcost) = 0 then 0 else cast(1.0*(profit/(pre_mktval+addcost))*100 as decimal(20,4)) end stk_profitrate  from tmp_result", "TASKTYPE":"0","TARGETTABLE":"st_dd_cust_stkprofit","PARTITIONNUM":"-1","SAVEMODE":"1"}
+
+
