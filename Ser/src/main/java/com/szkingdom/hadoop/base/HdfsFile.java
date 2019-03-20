@@ -1,10 +1,11 @@
-package com.szkingdom.text;
+package com.szkingdom.hadoop.base;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.szkingdom.Reader;
 import com.szkingdom.Writer;
+import com.szkingdom.hadoop.bean.FieldInfo;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -32,36 +33,41 @@ import java.util.stream.Collectors;
  * 2019/3/20     1.0.1.0       tang.peng     创建
  * ----------------------------------------------------------------
  */
-public class HadoopFile implements Writer<List<Map<String, Object>>>, Reader<List<Map<String, Object>>> {
+public class HdfsFile implements Writer<List<Map<String, Object>>>, Reader<List<Map<String, Object>>> {
 
     private FileSystem fileSystem;
     private String filePath;
-    private HbaseTableStructInfo[] hbaseTableStructInfos; //按字段序号排序后的
+    private FieldInfo[] fieldInfos; //按字段序号排序后的
 
-    private HadoopFile() {
+    private HdfsFile() {
     }
 
     /**
      *
      * @param fileSystem
      * @param filePath
-     * @param hbaseTableStructInfos
+     * @param fieldInfos
      */
-    public HadoopFile(FileSystem fileSystem, String filePath, HbaseTableStructInfo[] hbaseTableStructInfos) {
+    public HdfsFile(FileSystem fileSystem, String filePath, FieldInfo[] fieldInfos) {
         this.fileSystem = fileSystem;
         this.filePath = filePath;
-        this.hbaseTableStructInfos = hbaseTableStructInfos;
+        this.fieldInfos = fieldInfos;
     }
 
-    public HadoopFile(FileSystem fileSystem, String filePath, List<HbaseTableStructInfo> hbaseTableStructInfos) {
+    public HdfsFile(FileSystem fileSystem, String filePath, List<FieldInfo> fieldInfos) {
         this.fileSystem = fileSystem;
         this.filePath = filePath;
-        this.hbaseTableStructInfos =
-                hbaseTableStructInfos.stream().sorted(Comparator.comparing(HbaseTableStructInfo::getFieldSn)).collect(Collectors.toList()).toArray(new HbaseTableStructInfo[hbaseTableStructInfos.size()]);
+        this.fieldInfos =
+                fieldInfos.stream().sorted(Comparator.comparing(FieldInfo::getFieldSn)).collect(Collectors.toList()).toArray(new FieldInfo[fieldInfos.size()]);
     }
 
+    /**
+     *
+     * @param data List<字段代码,字段值>
+     * @throws IOException
+     */
     @Override
-    public void write(List<Map<String, Object>> data) throws IOException {
+    public Boolean write(List<Map<String, Object>> data) throws IOException {
         FSDataOutputStream fout = null;
         BufferedWriter out = null;
         Path path = null;
@@ -75,9 +81,9 @@ public class HadoopFile implements Writer<List<Map<String, Object>>>, Reader<Lis
             for (Map<String, Object> v : data) {
                 List<String> result = new ArrayList<>();
 
-                for (int i = 0; i < hbaseTableStructInfos.length; i++) {
-                    result.add(getValue(v, hbaseTableStructInfos[i].getFieldCode(),
-                            hbaseTableStructInfos[i].getDefaultValue()));
+                for (int i = 0; i < fieldInfos.length; i++) {
+                    result.add(getValue(v, fieldInfos[i].getFieldCode(),
+                            fieldInfos[i].getDefaultValue()));
                 }
                 String value = Joiner.on(HadoopCfg.DEFAULT_SEPARATOR).join(result);
                 out.write(value);
@@ -92,6 +98,7 @@ public class HadoopFile implements Writer<List<Map<String, Object>>>, Reader<Lis
                 fout.close();
             }
         }
+        return true;
     }
 
     @Override
@@ -113,7 +120,7 @@ public class HadoopFile implements Writer<List<Map<String, Object>>>, Reader<Lis
                 int i = 0;
                 while (it.hasNext()) {
                     String v = it.next();
-                    HbaseTableStructInfo info = hbaseTableStructInfos[i];
+                    FieldInfo info = fieldInfos[i];
                     map.put(info.getFieldCode(), getData(v, info.getDataType(), info.getDecimalDigits()));
                     i++;
                 }

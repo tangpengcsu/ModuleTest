@@ -1,4 +1,4 @@
-package com.szkingdom.text;
+package com.szkingdom.hadoop.base;
 
 /**
  * 版权声明：本程序模块属于大数据分析平台（KDBI）的一部分

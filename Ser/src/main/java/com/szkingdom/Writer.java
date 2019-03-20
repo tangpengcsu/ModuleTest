@@ -17,5 +17,5 @@ import java.io.IOException;
  * ----------------------------------------------------------------
  */
 public interface Writer<T> {
-    void write(T data) throws IOException;
+    Boolean write(T data) throws IOException;
 }

@@ -1,6 +1,4 @@
-package com.szkingdom.text;
-
-import java.util.Map;
+package com.szkingdom.hadoop;
 
 /**
  * 版权声明：本程序模块属于大数据分析平台（KDBI）的一部分
@@ -16,13 +14,5 @@ import java.util.Map;
  * 2019/3/20     1.0.1.0       tang.peng     创建
  * ----------------------------------------------------------------
  */
-public class Utils {
-  /*  public <K extends Comparable<? super K>, V > Map<K, V> sortByKey(Map<K, V> map) {
-        Map<K, V> result = new LinkedHashMap<>();
-
-        map.entrySet().stream()
-                .sorted(Map.Entry.<K, V>comparingByKey()
-                        .reversed()).forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
-        return result;
-    }*/
+public class WriterFactory {
 }

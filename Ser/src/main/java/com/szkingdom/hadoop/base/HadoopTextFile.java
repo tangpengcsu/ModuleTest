@@ -1,4 +1,4 @@
-package com.szkingdom.text;
+package com.szkingdom.hadoop.base;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -11,8 +11,6 @@ import org.apache.hadoop.fs.Path;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 版权声明：本程序模块属于大数据分析平台（KDBI）的一部分
@@ -49,7 +47,7 @@ public class HadoopTextFile implements Writer<List<Map<String, Object>>>, Reader
      * @throws IOException
      */
     @Override
-    public void write(List<Map<String, Object>> data) throws IOException {
+    public Boolean write(List<Map<String, Object>> data) throws IOException {
 
         FSDataOutputStream fout = null;
         BufferedWriter out = null;
@@ -81,6 +79,7 @@ public class HadoopTextFile implements Writer<List<Map<String, Object>>>, Reader
                 fout.close();
             }
         }
+        return true;
 
     }
 
