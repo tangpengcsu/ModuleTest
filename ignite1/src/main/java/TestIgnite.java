@@ -105,6 +105,7 @@ public class TestIgnite  extends AbstractJavaSamplerClient {
         Connection con = getConn();
 
         String sql = "select * from test2";
+        sql  ="SELECT STDDEV_POP(rec_sn) from SH_GH_20180904_410.SH_GH_20180904_410 group by rec_sn";
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement)con.prepareStatement(sql);
@@ -127,6 +128,9 @@ public class TestIgnite  extends AbstractJavaSamplerClient {
             close(con);
         }
 
+    }
+    public static void main(String[] args) throws Exception{
+        new TestIgnite().read();
     }
 
 

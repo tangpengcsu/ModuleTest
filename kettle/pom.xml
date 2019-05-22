@@ -55,6 +55,11 @@
             <version>${kettle.version}</version>
 
         </dependency>
+<!--        <dependency>
+            <groupId>pentaho</groupId>
+            <artifactId>pentaho-big-data-plugin</artifactId>
+            <version>${kettle.version}</version>
+        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>

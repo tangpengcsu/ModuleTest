@@ -14,9 +14,14 @@
 
         <ignite.version>2.6.0</ignite.version>
         <hadoop.version>2.7.3</hadoop.version>
+        <mysql.version>5.1.34</mysql.version>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.ignite</groupId>
